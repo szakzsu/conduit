@@ -1,0 +1,5 @@
+How to reverse a list in Python
+The article is about coding in Python
+Every list in Python has a built-in reverse() method you can call to reverse the contents of the list object in-place. Reversing the list in-place means won’t create a new list and copy the existing elements to it in reverse order. Instead, it directly modifies the original list object.
+Python
+reverse
