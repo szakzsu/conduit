@@ -1,5 +1,4 @@
-from Conduit_vizsgaremek import login_details
-from Conduit_vizsgaremek.login_details import login_user
+from login_details import login_user
 
 
 def cookie_accept(browser):
