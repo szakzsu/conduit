@@ -179,7 +179,7 @@ class TestConduit(object):
         article_tags = self.browser.find_element_by_xpath('//input[@placeholder="Enter tags"]')
         submit_btn = self.browser.find_element_by_xpath('//button[@type="submit"]')
         counter = 0
-        with open('test_article.csv', 'r', encoding='UTF-8') as article:
+        with open('Conduit_vizsgaremek/test_article.csv', 'r', encoding='UTF-8') as article:
             file_content = csv.reader(article, delimiter=';')
             while counter != 3:
                 for row in file_content:
@@ -217,7 +217,7 @@ class TestConduit(object):
         home_btn = self.browser.find_element_by_xpath('//a[@class="nav-link router-link-exact-active active"]')
         home_btn.click()
         logged_in_account.click()
-        time.sleep(2)
+        time.sleep(4)
         edit_article = self.browser.find_element_by_xpath('//a[@href="#/articles/how-to-reverse-a-list-in-python"]')
         edit_article.click()
         edit_btn = self.browser.find_element_by_xpath('//a[@href="#/editor/how-to-reverse-a-list-in-python"]')
@@ -249,7 +249,7 @@ class TestConduit(object):
         home_btn = self.browser.find_element_by_xpath('//a[@class="nav-link router-link-exact-active active"]')
         home_btn.click()
         logged_in_account.click()
-        time.sleep(2)
+        time.sleep(4)
         edit_article = self.browser.find_element_by_xpath('//a[@href="#/articles/how-to-reverse-a-list-in-python"]')
         edit_article.click()
         delete_btn = WebDriverWait(self.browser, 10).until(
