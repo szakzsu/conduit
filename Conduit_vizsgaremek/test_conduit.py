@@ -10,7 +10,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from Conduit_vizsgaremek.basic_definitions import cookie_accept, login
 from Conduit_vizsgaremek.login_details import register_user, login_user
 
-
+# start of test
 class TestConduit(object):
     def setup(self):
         browser_options = Options()
