@@ -30,13 +30,9 @@ class TestConduit(object):
             '//button[@class="cookie__bar__buttons__button cookie__bar__buttons__button--accept"]')
         accept_cookies.click()
 
-        try:
-            cookie_window = self.browser.find_elements_by_xpath(
-                '//div[@class="cookie cookie__bar cookie__bar--bottom-left"]')
-            assert len(cookie_window) == 0
-            print('You have accepted the cookies!')
-        except AssertionError:
-            print('An error occurred when accepting the cookies!')
+        cookie_window = self.browser.find_elements_by_xpath(
+            '//div[@class="cookie cookie__bar cookie__bar--bottom-left"]')
+        assert len(cookie_window) == 0
 
     # TC2a: Registration with no user data, so testcase is expected to fail
     def test_no_data_registration(self):
@@ -56,7 +52,6 @@ class TestConduit(object):
             EC.presence_of_element_located((By.XPATH, '//div[text()="Username field required. "]')))
 
         assert registration_error.is_displayed()
-        print('An error occurred during the registration process')
 
         error_btn = self.browser.find_element_by_xpath('//button[@class="swal-button swal-button--confirm"]')
         error_btn.click()
@@ -77,13 +72,11 @@ class TestConduit(object):
         time.sleep(2)
         message = WebDriverWait(self.browser, 5).until(
             EC.presence_of_element_located((By.XPATH, '//div[@class="swal-text"]'))).text
-        try:
-            if message == 'Your registration was successful!':
-                print("You have registered successfuly!")
-            elif message == 'Email already taken.':
-                print("This email address is already in use")
-        except AssertionError:
-            print("An error occurred during registration")
+
+        if message == 'Your registration was successful!':
+            print("You have registered successfuly!")
+        elif message == 'Email already taken.':
+            print("This email address is already in use")
 
     # TC3: Logging in as registered user, and confirming that the user is logged in
     def test_login_as_registered_user(self):
@@ -99,11 +92,7 @@ class TestConduit(object):
         profile_btn = WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.XPATH, '//a[@href="#/@szakzsu/" and @class="nav-link"]')))
 
-        try:
-            assert profile_btn.text == 'szakzsu'
-            print("Logged in successfully.")
-        except TimeoutException:
-            print("An error occurred during the login process")
+        assert profile_btn.text == 'szakzsu'
 
     # TC4: Listing the article(s) with a "laoreet" tag
     def test_listing_the_article(self):
@@ -113,18 +102,14 @@ class TestConduit(object):
             '//div[@class="sidebar"]/div[@class="tag-list"]/a[text()="laoreet"]')
         laoreet_tag.click()
 
-        time.sleep(2)
+        time.sleep(3)
 
         listed_articles = self.browser.find_elements_by_tag_name('h1')
         articles_with_laoreet_tag = self.browser.find_elements_by_xpath(
             '//div[@class="article-preview"]//a[@href="#/tag/laoreet"]')
 
-        try:
-            # -1 because the conduit logo is also a h1 element
-            assert len(listed_articles) - 1 == len(articles_with_laoreet_tag)
-            print("Only articles with \"laoreet\" tags were listed!")
-        except AssertionError:
-            print("No articles found!")
+        # -1 because the conduit logo is also a h1 element
+        assert len(listed_articles) - 1 == len(articles_with_laoreet_tag)
 
     # TC05: Browsing several pages of articles
     def test_browsing_the_pages(self):
@@ -137,11 +122,8 @@ class TestConduit(object):
             page_link.click()
             time.sleep(2)
         active_page = self.browser.find_element_by_xpath('//li[@class="page-item active"]')
-        try:
-            assert page_link.text == active_page.text
-            print("Pagination is correct")
-        except AssertionError:
-            print("Pagination is not matching!")
+
+        assert page_link.text == active_page.text
 
     # TC06: Commenting on an existing article
     def test_posting_a_comment(self):
@@ -160,11 +142,7 @@ class TestConduit(object):
         comment_author = WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.XPATH, '//a[@href="#/@szakzsu/"]')))
 
-        try:
-            assert comment_author.text == "szakzsu"
-            print("Your comment has been posted successfully!")
-        except AssertionError:
-            print("An error occurred during the process!")
+        assert comment_author.text == "szakzsu"
 
     # TC07: New data input from file, publishing an article
     def test_data_input_from_file(self):
@@ -202,11 +180,7 @@ class TestConduit(object):
         time.sleep(2)
         published_article = self.browser.find_elements_by_xpath('//div[@class="article-preview"]')
 
-        try:
-            assert len(published_article) == counter
-            print('Your articles have been published successfully!')
-        except AssertionError:
-            print('An error occurred during publication')
+        assert len(published_article) == counter
 
     # TC08: Modification of existing article
     def test_modifying_existing_article(self):
@@ -234,11 +208,9 @@ class TestConduit(object):
         time.sleep(2)
 
         tag_list = self.browser.find_elements_by_xpath('//div/a[@class="tag-pill tag-default"]')
-        try:
-            assert tag_list[1].text == "updated content"
-            print("Update successful")
-        except AssertionError:
-            print("Your article could not be updated")
+
+        assert tag_list[1].text == "updated content"
+
 
     # TC09: Deleting the created article
     def test_deleting_an_article(self):
@@ -258,11 +230,7 @@ class TestConduit(object):
 
         time.sleep(2)
 
-        try:
-            assert self.browser.current_url == "http://localhost:1667/#/"
-            print("Article deleted successfully!")
-        except AssertionError:
-            print("Article not deleted!")
+        assert self.browser.current_url == "http://localhost:1667/#/"
 
     # TC10: Downloading data to file, downloading article titles
     def test_downloading_data_to_file(self):
@@ -273,14 +241,10 @@ class TestConduit(object):
             for tag in popular_tags:
                 f.write(tag.text + ', ')
 
-        try:
-            with open('popular_tags.txt', 'r') as f:
-                read_tags = f.read().split(', ')
-                for i, tag in enumerate(popular_tags):
-                    assert tag.text == read_tags[i]
-            print("Downloading the data was successful!")
-        except AssertionError:
-            print("Something went wrong!")
+        with open('popular_tags.txt', 'r') as f:
+            read_tags = f.read().split(', ')
+            for i, tag in enumerate(popular_tags):
+                assert tag.text == read_tags[i]
 
     # TC11: Logging out of the Conduit application
     def test_logout(self):
@@ -291,11 +255,7 @@ class TestConduit(object):
         logout_btn.click()
         login_btn = WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.XPATH, '//a[@href="#/login"]')))
-        try:
-            assert login_btn.is_displayed()
-            print("You have logged out successfully!")
-        except AssertionError:
-            print("An error occurred during the logout process.")
+        assert login_btn.is_displayed()
 
     def teardown(self):
         self.browser.quit()
