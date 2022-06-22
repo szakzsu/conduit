@@ -53,9 +53,6 @@ class TestConduit(object):
 
         assert registration_error.is_displayed()
 
-        error_btn = self.browser.find_element_by_xpath('//button[@class="swal-button swal-button--confirm"]')
-        error_btn.click()
-
     # TC02b: Registration with valid details, because a registered account will be necessary for further tests
     def test_valid_user_registration(self):
         cookie_accept(self.browser)
@@ -210,7 +207,6 @@ class TestConduit(object):
         tag_list = self.browser.find_elements_by_xpath('//div/a[@class="tag-pill tag-default"]')
 
         assert tag_list[1].text == "updated content"
-
 
     # TC09: Deleting the created article
     def test_deleting_an_article(self):
